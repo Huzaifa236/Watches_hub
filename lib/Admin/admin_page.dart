@@ -2,9 +2,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:watches_hub/Admin/Pages/Orders.dart';
-import 'package:watches_hub/Admin/Pages/Reviews.dart';
-import 'package:watches_hub/Admin/Pages/products.dart';
+import 'package:watches_hub/Admin/Pages/orderPages/Orders.dart';
+import 'package:watches_hub/Admin/Pages/reviewsPages/Reviews.dart';
+import 'package:watches_hub/Admin/Pages/productPages/products.dart';
 import 'package:watches_hub/Admin/Pages/users.dart';
 import 'package:watches_hub/Constants/app_colors.dart';
 

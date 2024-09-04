@@ -21,13 +21,52 @@ class AdminServices {
           "Email": email,
         };
         await firestore.collection("Users").doc(uid).set(data);
-        showSnackBar(context, "User Added successfully");
+        if(context.mounted){
+          showSnackBar(context, "User Added successfully");
+        }
       } else {
-        showSnackBar(context, "Failed to create account");
+        if(context.mounted){
+          showSnackBar(context, "Failed to create account");
+        }
       }
     } catch (e) {
-      showSnackBar(context, e.toString());
+      if(context.mounted){
+        showSnackBar(context, e.toString());
+      }
     }
   }
 
+  Future<void> deleteData(String id,BuildContext context)async{
+  try{
+    await firestore.collection("Users").doc(id).delete();
+  }catch(e){
+    if(context.mounted){
+      showSnackBar(context, e.toString());
+    }
+  }
+  }
+  Future<void> updateData(String username,String email,String id,BuildContext context)async{
+  try{
+    if (id.isNotEmpty) {
+      Map<String, dynamic> data = {
+        "Uid": id,
+        "Username": username,
+        "Email": email,
+      };
+      print(id);
+      await firestore.collection("Users").doc(id).set(data,SetOptions(merge: true));
+      if(context.mounted){
+        showSnackBar(context, "User Updated successfully");
+      }
+    } else {
+      if(context.mounted){
+        showSnackBar(context, "Failed to update account");
+      }
+    }
+  }catch(e){
+    if(context.mounted){
+      showSnackBar(context, e.toString());
+    }
+  }
+  }
 }

@@ -23,24 +23,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    FirebaseAuth.instance
-        .authStateChanges()
-        .listen((User? user) {
-      if (user == null) {
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-          return const LoginScreen();
-        }));
-      } else {
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-          return const HomeScreen();
-        }));
-      }
-    });
-  }
+  // checkLoggedIn(){
+  //   FirebaseAuth.instance
+  //       .authStateChanges()
+  //       .listen((User? user) {
+  //     if (user == null) {
+  //       Navigator.push(context, MaterialPageRoute(builder: (context){
+  //         return const LoginScreen();
+  //       }));
+  //     } else {
+  //       Navigator.push(context, MaterialPageRoute(builder: (context){
+  //         return const HomeScreen();
+  //       }));
+  //     }
+  //   });
+  // }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   checkLoggedIn();
+  // }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

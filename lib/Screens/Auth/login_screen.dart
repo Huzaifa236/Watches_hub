@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:watches_hub/Screens/Auth/signup_screen.dart';
 
 import '../../Constants/app_colors.dart';
-import '../../Services/services.dart';
+import '../../Services/auth_services.dart';
 import '../../Widgets/my_button.dart';
 
 class LoginScreen extends StatelessWidget {

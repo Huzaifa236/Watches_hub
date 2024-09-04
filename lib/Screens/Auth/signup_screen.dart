@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:watches_hub/Screens/Auth/login_screen.dart';
-import 'package:watches_hub/Services/services.dart';
+import 'package:watches_hub/Services/auth_services.dart';
 
 import '../../Constants/app_colors.dart';
 import '../../Widgets/my_button.dart';
