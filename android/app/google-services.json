@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "18861334187",
+    "project_id": "watches-17aa7",
+    "storage_bucket": "watches-17aa7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18861334187:android:4e5a98685e579d2a1f21ee",
+        "android_client_info": {
+          "package_name": "com.example.watches_hub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7Shl16GBYqAs9IqihLgsXmnhDbOtPpw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
