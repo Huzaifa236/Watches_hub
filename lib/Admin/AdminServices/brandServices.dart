@@ -12,7 +12,7 @@ class BrandServices {
   Future<void>addBrand(String brandName,BuildContext context)async{
     try{
       Map<String,dynamic> data ={
-        "Band":brandName,
+        "Brand":brandName,
       };
      await firestore.collection("Brands").add(data);
     }catch(e){

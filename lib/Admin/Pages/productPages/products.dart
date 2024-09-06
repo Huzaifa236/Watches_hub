@@ -10,12 +10,12 @@ class Products extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> usersStream = FirebaseFirestore.instance.collection('Users').snapshots();
+    final Stream<QuerySnapshot> usersStream = FirebaseFirestore.instance.collection('Products').snapshots();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
         elevation: 2,
-        title: const Text("Users"),
+        title: const Text("Products"),
         centerTitle: true,
       ),
       backgroundColor: AppColors.backgroundColor,
@@ -36,8 +36,8 @@ class Products extends StatelessWidget {
                 var data = snapshot.data!.docs[index];
                 return ListTile(
                     leading: Text("${index+1}",style: const TextStyle(fontSize: 20),),
-                    title: Text(data['Email']),
-                    subtitle: Text(data['Username']),
+                    // title: Text(data['Email']),
+                    // subtitle: Text(data['Username']),
                     trailing: SizedBox(
                       height: 50,
                       width: 100,

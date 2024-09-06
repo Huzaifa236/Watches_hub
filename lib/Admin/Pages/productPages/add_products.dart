@@ -6,10 +6,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:watches_hub/Admin/AdminServices/productServices.dart';
 import 'package:watches_hub/Admin/Pages/productPages/widgets.dart';
 import 'package:watches_hub/Constants/app_colors.dart';
+import 'package:watches_hub/Widgets/snackBar.dart';
 
 import '../../../Widgets/my_button.dart';
 
@@ -21,20 +25,32 @@ class AddProducts extends StatefulWidget {
 }
 
 class _AddProductsState extends State<AddProducts> {
-  Map map={
-    "Name":"productName",
-    "Price":"productPrice",
-    "Desc":"productDesc",
-    "image": "image",
-    "Brand":"brand",
-  };
+  List<String> brandList=[];
   final TextEditingController productNameController =TextEditingController();
   final TextEditingController productPriceController =TextEditingController();
   final TextEditingController productDescController =TextEditingController();
   final TextEditingController productBrandController =TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
+  final ProductServices  productServices = ProductServices();
   File? image;
   Uint8List? web;
+  String? selectedItem;
+  getBrands(){
+    FirebaseFirestore.instance
+        .collection('Brands')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        brandList.add(doc["Brand"]);
+      });
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getBrands();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,9 +76,46 @@ class _AddProductsState extends State<AddProducts> {
                       ),
                       onPressed: (){
                         showDialog(context: context, builder: (context){
-                          return ImageDialog(onTapCamera: (){
-                            print("object");
-                          },onTapGallery: (){},);
+                          return ImageDialog(onTapCamera: ()async{
+                            final ImagePicker imagepicker =ImagePicker();
+                         try{
+                           XFile? pickedImage =await imagepicker.pickImage(source: ImageSource.camera);
+                           if(pickedImage !=null){
+                           setState(() async{
+                             image=File(pickedImage.path);
+                             web=await pickedImage.readAsBytes();
+                           });
+                           Navigator.pop(context);
+                           showSnackBar(context, "Image Picked");
+
+                           }
+                           else{
+                             showSnackBar(context, "Image Not Picked");
+                           }
+                         }catch(e){
+                           showSnackBar(context, e.toString());
+                         }
+                          },onTapGallery: ()async{
+                            final ImagePicker imagepicker =ImagePicker();
+                            try{
+                              XFile? pickedImage =await imagepicker.pickImage(source: ImageSource.gallery);
+                              if(pickedImage !=null){
+                                image=File(pickedImage.path);
+                                web=await pickedImage.readAsBytes();
+                                setState(() {
+
+                                });
+                                Navigator.pop(context);
+                                print("Image Picked");
+                                showSnackBar(context, "Image Picked");
+                              }
+                              else{
+                                showSnackBar(context, "Image Not Picked");
+                              }
+                            }catch(e){
+                              showSnackBar(context, e.toString());
+                            }
+                          },);
                         });
                   }, child: const Text("Upload Product Image")),
                   const SizedBox(width: 20,),
@@ -74,7 +127,9 @@ class _AddProductsState extends State<AddProducts> {
                       border: Border.all(color: Colors.black,width: 2),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Icon(Icons.add_a_photo),
+                    child:web !=null && image != null? kIsWeb?ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.memory(web!,fit: BoxFit.cover,)):  const Icon(Icons.add_a_photo):const Icon(Icons.add_a_photo),
                   ),
                 ],
               ),
@@ -151,8 +206,9 @@ class _AddProductsState extends State<AddProducts> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: DropdownButtonFormField(
+                  value: selectedItem,
                     decoration: InputDecoration(
-                    hintText: "Product Name",
+                    hintText: "Brand Name",
                     contentPadding: const EdgeInsets.only(left: 20.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -160,12 +216,16 @@ class _AddProductsState extends State<AddProducts> {
                           width: 3),
                     )
                 ),
-                    items: [], onChanged: (value){}),
+                    items: brandList.map((value){
+                      return DropdownMenuItem(
+                          value: value,
+                          child: Text(value));
+                    }).toList(), onChanged: (value){}),
               ),
               const SizedBox(height: 20,),
               MyButton(text: 'Add Data', onTap: ()async{
                 if(key.currentState!.validate()) {
-                  // await adminServices.addUser(userController.text,emailController.text.trim(), passwordController.text, context);
+                  await productServices.addProduct(productNameController.text, productPriceController.text, productDescController.text, image!, selectedItem!, context);
                   if(context.mounted) {
                     Navigator.pop(context);
                   }

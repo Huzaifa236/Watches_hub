@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:watches_hub/Admin/Pages/brandPages/brand.dart';
 import 'package:watches_hub/Admin/Pages/orderPages/Orders.dart';
 import 'package:watches_hub/Admin/Pages/reviewsPages/Reviews.dart';
 import 'package:watches_hub/Admin/Pages/productPages/products.dart';
@@ -35,7 +36,7 @@ class AdminPage extends StatelessWidget {
                 },
                 child: SizedBox(
                   height: height*0.400,
-                  width: width/2,
+                  width: width/3,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
@@ -62,7 +63,7 @@ class AdminPage extends StatelessWidget {
                 },
                 child: SizedBox(
                   height: height*0.400,
-                  width: width/2,
+                  width: width/3,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
@@ -75,6 +76,33 @@ class AdminPage extends StatelessWidget {
                       children: [
                         Icon(CupertinoIcons.cart,color: AppColors.backgroundColor,size: width*0.150,),
                         Text("Products",style: TextStyle(color: AppColors.backgroundColor,fontSize: 20 ),)
+                      ],
+                    ),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return const BrandPage();
+                  }));
+                },
+                child: SizedBox(
+                  height: height*0.400,
+                  width: width/3,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                      ),
+                      color: AppColors.drawerBackgroud,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(CupertinoIcons.cart,color: AppColors.backgroundColor,size: width*0.150,),
+                        Text("Brands",style: TextStyle(color: AppColors.backgroundColor,fontSize: 20 ),)
                       ],
                     ),
                     ),

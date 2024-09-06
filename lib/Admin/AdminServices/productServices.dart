@@ -2,20 +2,26 @@
 
 
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:watches_hub/Widgets/snackBar.dart';
 
 class ProductServices {
   final FirebaseFirestore firestore =FirebaseFirestore.instance;
-
-  Future<void>addProduct(String productName,String productPrice,String productDesc,String image,String brand,BuildContext context)async{
+  final FirebaseStorage storage =FirebaseStorage.instance;
+  Future<void>addProduct(String productName,String productPrice,String productDesc,File image,String brand,BuildContext context)async{
     try{
+      UploadTask uploadTask = storage.ref().child("Products").putFile(image);
+      TaskSnapshot taskSnapshot =  uploadTask.snapshot;
+      String url = await taskSnapshot.ref.getDownloadURL();
       Map<String,dynamic> data ={
         "Name":productName,
         "Price":productPrice,
         "Desc":productDesc,
-        "image": image,
+        "image": url,
         "Brand":brand,
       };
       await firestore.collection("Products").add(data);
