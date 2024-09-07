@@ -14,17 +14,25 @@ class ProductServices {
   final FirebaseStorage storage =FirebaseStorage.instance;
   Future<void>addProduct(String productName,String productPrice,String productDesc,File image,String brand,BuildContext context)async{
     try{
-      UploadTask uploadTask = storage.ref().child("Products").putFile(image);
+      print("Uploading...");
+      UploadTask uploadTask = storage.ref("Products").putFile(image);
+      print("object");
       TaskSnapshot taskSnapshot =  uploadTask.snapshot;
       String url = await taskSnapshot.ref.getDownloadURL();
-      Map<String,dynamic> data ={
-        "Name":productName,
-        "Price":productPrice,
-        "Desc":productDesc,
-        "image": url,
-        "Brand":brand,
-      };
-      await firestore.collection("Products").add(data);
+      if(url.isNotEmpty){
+        Map<String,dynamic> data ={
+          "Name":productName,
+          "Price":productPrice,
+          "Desc":productDesc,
+          "image": url,
+          "Brand":brand,
+        };
+        await firestore.collection("Products").add(data);
+        Navigator.pop(context);
+        showSnackBar(context, "Product Uploaded Successfully");
+      }else{
+        showSnackBar(context, "Image not Uploaded");
+      }
     }catch(e){
       showSnackBar(context, e.toString());
     }
@@ -39,6 +47,7 @@ class ProductServices {
         "Brand":brand,
       };
       await firestore.collection("Products").doc(id).set(data);
+
     }catch(e){
       showSnackBar(context, e.toString());
     }

@@ -131,6 +131,14 @@ class _AddProductsState extends State<AddProducts> {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.memory(web!,fit: BoxFit.cover,)):  const Icon(Icons.add_a_photo):const Icon(Icons.add_a_photo),
                   ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(onPressed: (){
+                    image = null;
+                    web = null;
+                    setState(() {
+
+                    });
+                  }, child: const Text("Clear Picture"))
                 ],
               ),
               const SizedBox(height: 20),
@@ -220,12 +228,20 @@ class _AddProductsState extends State<AddProducts> {
                       return DropdownMenuItem(
                           value: value,
                           child: Text(value));
-                    }).toList(), onChanged: (value){}),
+                    }).toList(), onChanged: (value){
+                    selectedItem = value;
+                }),
               ),
               const SizedBox(height: 20,),
               MyButton(text: 'Add Data', onTap: ()async{
                 if(key.currentState!.validate()) {
                   await productServices.addProduct(productNameController.text, productPriceController.text, productDescController.text, image!, selectedItem!, context);
+                  productNameController.clear();
+                  productPriceController.clear();
+                  productDescController.clear();
+                  productBrandController.clear();
+                  image = null;
+                  web = null;
                   if(context.mounted) {
                     Navigator.pop(context);
                   }
