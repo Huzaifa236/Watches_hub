@@ -30,6 +30,7 @@ class _AddProductsState extends State<AddProducts> {
   final TextEditingController productPriceController =TextEditingController();
   final TextEditingController productDescController =TextEditingController();
   final TextEditingController productBrandController =TextEditingController();
+  final TextEditingController productQuantityController =TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   final ProductServices  productServices = ProductServices();
   File? image;
@@ -129,7 +130,8 @@ class _AddProductsState extends State<AddProducts> {
                     ),
                     child:web !=null && image != null? kIsWeb?ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.memory(web!,fit: BoxFit.cover,)):  const Icon(Icons.add_a_photo):const Icon(Icons.add_a_photo),
+                        child: Image.memory(web!,fit: BoxFit.cover,)):
+                    const Icon(Icons.add_a_photo):const Icon(Icons.add_a_photo),
                   ),
                   const SizedBox(width: 10),
                   ElevatedButton(onPressed: (){
@@ -191,6 +193,31 @@ class _AddProductsState extends State<AddProducts> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: TextFormField(
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  controller: productQuantityController,
+                  cursorColor: Colors.black,
+                  validator: (value){
+                    if(value == null || value.isEmpty){
+                      return "Product Quantity is empty";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      hintText: "Product Quantity",
+                      contentPadding: const EdgeInsets.only(left: 20.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide(color: Colors.grey.shade900,
+                            width: 3),
+                      )
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextFormField(
+                  maxLines: 2,
                   controller: productDescController,
                   cursorColor: Colors.black,
                   validator: (value){
@@ -201,7 +228,7 @@ class _AddProductsState extends State<AddProducts> {
                   },
                   decoration: InputDecoration(
                       hintText: "Product Description",
-                      contentPadding: const EdgeInsets.only(left: 20.0),
+                      contentPadding: const EdgeInsets.only(top: 20,left: 20.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide(color: Colors.grey.shade900,
@@ -235,11 +262,12 @@ class _AddProductsState extends State<AddProducts> {
               const SizedBox(height: 20,),
               MyButton(text: 'Add Data', onTap: ()async{
                 if(key.currentState!.validate()) {
-                  await productServices.addProduct(productNameController.text, productPriceController.text, productDescController.text, image!, selectedItem!, context);
+                  await productServices.addProduct(productNameController.text, productPriceController.text, productDescController.text,productQuantityController.text ,image!, web!,selectedItem!, context);
                   productNameController.clear();
                   productPriceController.clear();
                   productDescController.clear();
                   productBrandController.clear();
+                  productQuantityController.clear();
                   image = null;
                   web = null;
                   if(context.mounted) {

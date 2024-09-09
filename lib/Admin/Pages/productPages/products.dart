@@ -29,15 +29,20 @@ class Products extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
+          if (!snapshot.hasData) {
+            return const Center(child: Text('No data available'));
+          }
 
           return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context,index){
                 var data = snapshot.data!.docs[index];
                 return ListTile(
-                    leading: Text("${index+1}",style: const TextStyle(fontSize: 20),),
-                    // title: Text(data['Email']),
-                    // subtitle: Text(data['Username']),
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(data["product_image"]),
+                    ),
+                    title: Text(data["product_name"]),
+                    subtitle: Text(data["product_price"].toString()),
                     trailing: SizedBox(
                       height: 50,
                       width: 100,

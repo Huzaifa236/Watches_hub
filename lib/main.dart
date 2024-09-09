@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:watches_hub/Admin/Pages/productPages/add_products.dart';
+import 'package:watches_hub/Screens/Home.dart';
 import 'Admin/Pages/brandPages/add_brands.dart';
 import 'Admin/admin_page.dart';
 import 'firebase_options.dart';
@@ -49,7 +50,7 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black12),
         useMaterial3: true,
       ),
-      home:const AdminPage(),
+      home:const HomeScreen(),
     );
   }
 }

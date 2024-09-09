@@ -1,8 +1,12 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:watches_hub/Screens/brands_screen.dart';
 
 import '../Constants/app_colors.dart';
+import '../Screens/search_screen.dart';
 import '../Services/auth_services.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -15,6 +19,17 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final FirebaseAuth auth =FirebaseAuth.instance;
+    // getBrands(){
+    //   FirebaseFirestore.instance
+    //       .collection('Brands')
+    //       .get()
+    //       .then((QuerySnapshot querySnapshot) {
+    //     querySnapshot.docs.forEach((doc) {
+    //       brandList.add(doc["Brand"]);
+    //     });
+    //   });
+    // }
     return Drawer(
       width: 200,
       backgroundColor: AppColors.drawerBackgroud,
@@ -35,14 +50,22 @@ class MyDrawer extends StatelessWidget {
             title: const Text("Home",style: TextStyle(color: Colors.white),),
           ),
           ListTile(
-            onTap: (){},
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return const BrandsScreen();
+              }));
+            },
             leading: const Icon(Icons.add_shopping_cart,color: Colors.white,),
             title: const Text("Shop",style: TextStyle(color: Colors.white),),
           ),
           ListTile(
-            onTap: (){},
-            leading: const Icon(Icons.settings,color: Colors.white,),
-            title: const Text("Settings",style: TextStyle(color: Colors.white),),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return const SearchScreen();
+              }));
+            },
+            leading: const Icon(Icons.search,color: Colors.white,),
+            title: const Text("Search",style: TextStyle(color: Colors.white),),
           ),
           ListTile(
             onTap: (){},

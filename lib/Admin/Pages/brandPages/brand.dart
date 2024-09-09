@@ -33,6 +33,9 @@ class BrandPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
+          if (!snapshot.hasData) {
+            return const Center(child: Text('No data available'));
+          }
 
           return ListView.builder(
               itemCount: snapshot.data!.docs.length,
